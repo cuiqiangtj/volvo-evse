@@ -11,6 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 /**
@@ -28,7 +29,7 @@ public class ConnectorController {
 
 
     @PostMapping ("/addConnector")
-    public ResponseEntity<?> addConnector(ConnectorBo connectorBo) {
+    public ResponseEntity<?> addConnector(@RequestBody ConnectorBo connectorBo) {
         // 判断evseId是否存在
         Evse evse = evseService.selectById(connectorBo.getEvseId());
 
@@ -45,7 +46,7 @@ public class ConnectorController {
         }
     }
     @PostMapping ("/updateConnector")
-    public ResponseEntity<?> updateConnector(ConnectorBo connectorBo) {
+    public ResponseEntity<?> updateConnector(@RequestBody ConnectorBo connectorBo) {
 
         try {
             //修改

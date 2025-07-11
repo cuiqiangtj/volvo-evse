@@ -1,5 +1,6 @@
 package com.volvo.evse;
 
+import com.volvo.evse.common.Page;
 import com.volvo.evse.evse.bo.EvseBo;
 import com.volvo.evse.evse.controller.EVSEController;
 import com.volvo.evse.evse.model.Evse;
@@ -87,7 +88,9 @@ public class EVSEControllerTest {
 
     @Test
     public void query(){
-        ResponseEntity<?> map = evseController.query(1,10);
+
+        Page page = new Page();
+        ResponseEntity<?> map = evseController.query(page);
 
         System.out.println(map.getStatusCode());
         System.out.println(map.getBody());

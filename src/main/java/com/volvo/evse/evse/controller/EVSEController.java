@@ -2,6 +2,7 @@ package com.volvo.evse.evse.controller;
 
 import com.github.pagehelper.PageInfo;
 import com.volvo.evse.common.EvseCodeUnit;
+import com.volvo.evse.common.Page;
 import com.volvo.evse.evse.bo.EvseBo;
 import com.volvo.evse.evse.model.Evse;
 import com.volvo.evse.evse.model.Location;
@@ -14,6 +15,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.List;
@@ -32,8 +34,8 @@ public class EVSEController {
     @Autowired
     private LocationService locationService;
 
-    @PostMapping("/add")
-    public ResponseEntity<?> add(EvseBo evseBo) {
+    @PostMapping("/addEVSE")
+    public ResponseEntity<?> add(@RequestBody EvseBo evseBo) {
 
         // 判断LocationId是否存在
         int locationId = evseBo.getLocationId();
@@ -47,7 +49,7 @@ public class EVSEController {
         String evseCodeId = evseBo.getEvseCode();
         // 验证失败返回400错误请求响应。
         if(!EvseCodeUnit.iSOCPICompliant(evseCodeId)){
-            return new ResponseEntity<>("The code does not comply with the rules.", HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>("The EVSECode does not comply with the rules.", HttpStatus.BAD_REQUEST);
         }
 
         try {
@@ -61,8 +63,23 @@ public class EVSEController {
         }
     }
 
-    @PostMapping("/update")
-    public ResponseEntity<?> update(EvseBo evseBo) {
+    @PostMapping("/updateEVSE")
+    public ResponseEntity<?> update(@RequestBody EvseBo evseBo) {
+
+        // 判断LocationId是否存在
+        int locationId = evseBo.getLocationId();
+
+        Location location = locationService.selectById(locationId);
+        if(location==null){
+            return new ResponseEntity<>("Location  not found.", HttpStatus.BAD_REQUEST);
+        }
+
+        // 验证唯一标识
+        String evseCodeId = evseBo.getEvseCode();
+        // 验证失败返回400错误请求响应。
+        if(!EvseCodeUnit.iSOCPICompliant(evseCodeId)){
+            return new ResponseEntity<>("The EVSECode does not comply with the rules.", HttpStatus.BAD_REQUEST);
+        }
 
         try {
             Evse evse = evseService.update(evseBo);
@@ -73,8 +90,8 @@ public class EVSEController {
     }
 
 
-    @PostMapping("/changeStatus")
-    public ResponseEntity<?> change(EvseBo evseBo) {
+    @PostMapping("/changeStatusEVSE")
+    public ResponseEntity<?> change(@RequestBody EvseBo evseBo) {
         //判断当前状态和要转换的状态
         //无效转换将导致409冲突响应。
 
@@ -117,13 +134,13 @@ public class EVSEController {
 
 
     }
-    @GetMapping("/query")
-    public ResponseEntity<?> query(int pageNum, int pageSize) {
+    @GetMapping("/queryEVSE")
+    public ResponseEntity<?> query(Page page) {
         //分页查询
 
         try {
 
-            PageInfo<Evse> evseList = evseService.query(pageNum,pageSize);
+            PageInfo<Evse> evseList = evseService.query(page.getPageNum(),page.getPageSize());
             return new ResponseEntity<>(evseList, HttpStatus.OK);
         } catch (Exception e) {
             e.printStackTrace();

@@ -21,7 +21,7 @@ public class ConnectorControllerTest {
 
 
     @Test
-    public void testLocation(){
+    public void testController(){
 
         ConnectorBo bo = new ConnectorBo();
         bo.setEvseId(1);

@@ -1,0 +1,99 @@
+# 新增Location
+curl --location 'http://20.250.144.221:8081/location/addLocation' \
+--header 'Content-Type: application/json' \
+--data '{
+    "name":"testLocation",
+    "coordinates":"124.12345,56.12345",
+    "businessHours":"0-24",
+    "address":"XX市XX区XX路1号"
+}'
+# 修改Location
+curl --location 'http://20.250.144.221:8081/location/updateLocation' \
+--header 'Content-Type: application/json' \
+--data '{
+    "id":1,
+    "name":"testLocation",
+    "coordinates":"124.12345,56.12345",
+    "businessHours":"9-24",
+    "address":"XX市XX区XX路2号"
+}'
+
+# 新增EVSE
+curl --location 'http://20.250.144.221:8081/evse/addEVSE' \
+--header 'Content-Type: application/json' \
+--data '{
+    "evseCode":"US*ABC*EVSE123456",
+    "locationId":1
+}'
+# 新增EVSE异常
+curl --location 'http://20.250.144.221:8081/evse/addEVSE' \
+--header 'Content-Type: application/json' \
+--data '{
+    "evseCode":"EVSE123456",
+    "locationId":"999"
+}'
+
+curl --location 'http://20.250.144.221:8081/evse/addEVSE' \
+--header 'Content-Type: application/json' \
+--data '{
+    "evseCode":"EVSE123456",
+    "locationId":"1"
+}'
+
+# 修改EVSE
+curl --location 'http://20.250.144.221:8081/evse/updateEVSE' \
+--header 'Content-Type: application/json' \
+--data '{
+    "id":1,
+    "evseCode":"US*ABC*EVSE654321",
+    "locationId":1
+}'
+
+# 修改EVSE异常
+curl --location 'http://20.250.144.221:8081/evse/updateEVSE' \
+--header 'Content-Type: application/json' \
+--data '{
+    "id":1,
+    "evseCode":"EVSE123456",
+    "locationId":"999"
+}'
+
+curl --location 'http://20.250.144.221:8081/evse/updateEVSE' \
+--header 'Content-Type: application/json' \
+--data '{
+    "id":1,
+    "evseCode":"EVSE123456",
+    "locationId":"1"
+}'
+
+
+# 修改EVSE状态(Available,Blocked,Inoperative,Removed)
+curl --location 'http://20.250.144.221:8081/evse/changeStatusEVSE' \
+--header 'Content-Type: application/json' \
+--data '{
+    "id":1,
+    "status":"Blocked"
+}'
+
+# 查询EVSE列表
+curl --location 'http://20.250.144.221:8081/evse/queryEVSE?pageNum=1&pageSize=10'
+
+# 新增Controller
+curl --location 'http://20.250.144.221:8081/connector/addConnector' \
+--header 'Content-Type: application/json' \
+--data '{
+    "evseId":1,
+    "standard":"GBI17625.1-2012",
+    "powerLevel":"100-240VAC",
+    "voltage":"200W"
+}'
+# 修改Controller
+curl --location 'http://20.250.144.221:8081/connector/updateConnector' \
+--header 'Content-Type: application/json' \
+--data '{
+    "id":1,
+    "evseId":1,
+    "standard":"GBI17625.1-2013",
+    "powerLevel":"100-240VAC",
+    "voltage":"200W"
+}'
