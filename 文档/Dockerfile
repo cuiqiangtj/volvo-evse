@@ -12,5 +12,3 @@ EXPOSE 8081
  
 # 运行Java应用程序
 CMD ["java", "-jar", "app.jar"]
-
-192.168.50.130

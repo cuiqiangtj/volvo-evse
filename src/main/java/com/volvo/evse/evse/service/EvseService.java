@@ -87,8 +87,8 @@ public class EvseService {
      * @return
      */
     public PageInfo<Evse> query(int pageNum, int pageSize){
-        List<Evse>  evseList = PageHelper.startPage(pageNum, pageSize);
-        evseMapper.query();
+        PageHelper.startPage(pageNum, pageSize);
+        List<Evse>  evseList = evseMapper.query();
         return new PageInfo<>(evseList);
     }
 
